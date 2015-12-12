@@ -2,7 +2,10 @@ package com.maillets.stm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,9 +15,6 @@ public class Trip {
 	@Id
 	@Column(nullable = false, unique = true)
 	private String id;
-
-	@Column(nullable = false)
-	private Integer routeId;
 
 	@Column(nullable = false)
 	private String serviceId;
@@ -37,20 +37,16 @@ public class Trip {
 	@Column(nullable = true)
 	private String noteEn;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "routeId")
+	private Route route;
+
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Integer getRouteId() {
-		return routeId;
-	}
-
-	public void setRouteId(Integer routeId) {
-		this.routeId = routeId;
 	}
 
 	public String getServiceId() {
@@ -107,5 +103,13 @@ public class Trip {
 
 	public void setNoteEn(String noteEn) {
 		this.noteEn = noteEn;
+	}
+
+	public Route getRoute() {
+		return route;
+	}
+
+	public void setRoute(Route route) {
+		this.route = route;
 	}
 }

@@ -44,7 +44,7 @@ public class TripController {
 
 	@RequestMapping(value = "/{id}", method = { RequestMethod.GET })
 	public TripDto getTripById(@PathVariable(value = "id") String id) {
-		logger.debug("GET /");
+		logger.debug("GET /{id}");
 
 		Trip trip = tripRepository.findOne(id);
 		return TripDto.fromTrip(trip);

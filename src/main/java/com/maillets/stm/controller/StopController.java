@@ -44,7 +44,7 @@ public class StopController {
 
 	@RequestMapping(value = "/{id}", method = { RequestMethod.GET })
 	public StopDto getStopById(@PathVariable(value = "id") Integer id) {
-		logger.debug("GET /");
+		logger.debug("GET /{id}");
 
 		Stop stop = stopRepository.findOne(id);
 		return StopDto.fromStop(stop);

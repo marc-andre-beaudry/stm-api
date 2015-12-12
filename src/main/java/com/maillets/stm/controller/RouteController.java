@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maillets.stm.dto.RouteDto;
+import com.maillets.stm.dto.TripDto;
 import com.maillets.stm.entities.Route;
+import com.maillets.stm.entities.Trip;
 import com.maillets.stm.repository.RouteRepository;
 
 @RestController
@@ -44,9 +46,21 @@ public class RouteController {
 
 	@RequestMapping(value = "/{id}", method = { RequestMethod.GET })
 	public RouteDto getRouteById(@PathVariable(value = "id") Integer id) {
-		logger.debug("GET /");
+		logger.debug("GET /{id}");
 
 		Route route = routeRepository.findOne(id);
 		return RouteDto.fromStop(route);
+	}
+
+	@RequestMapping(value = "/{id}/trips", method = { RequestMethod.GET })
+	public List<TripDto> getTripsForRoute(@PathVariable(value = "id") Integer id) {
+		logger.debug("GET /{id}/trips");
+
+		Route route = routeRepository.findOne(id);
+		List<TripDto> dtos = new ArrayList<>();
+		for (Trip trip : route.getTrips()) {
+			dtos.add(TripDto.fromTrip(trip));
+		}
+		return dtos;
 	}
 }

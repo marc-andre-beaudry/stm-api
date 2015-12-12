@@ -31,36 +31,6 @@ public class SeedLoader {
 	@Autowired
 	TripRepository tripRepository;
 
-	public void loadTrips(String source) {
-		InputStream is = SeedLoader.class.getResourceAsStream(source);
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-			br.lines().skip(1).forEach(line -> {
-				Trip trip = new Trip();
-				String[] splittedLine = line.split(",");
-				trip.setRouteId(Integer.parseInt(splittedLine[0]));
-				trip.setServiceId(splittedLine[1]);
-				trip.setId(splittedLine[2]);
-				trip.setHeadSign(splittedLine[3]);
-				trip.setDirectionId(splittedLine[4]);
-				if (splittedLine.length > 5) {
-					trip.setShapeId(splittedLine[5]);
-				}
-				if (splittedLine.length > 6) {
-					trip.setWheelchairAccessible(splittedLine[6]);
-				}
-				if (splittedLine.length > 7) {
-					trip.setNoteFr(splittedLine[7]);
-				}
-				if (splittedLine.length > 8) {
-					trip.setNoteEn(splittedLine[8]);
-				}
-				tripRepository.saveAndFlush(trip);
-			});
-		} catch (IOException ex) {
-			logger.error(ex.getMessage(), ex);
-		}
-	}
-
 	public void loadRoutes(String source) {
 		InputStream is = SeedLoader.class.getResourceAsStream(source);
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
@@ -78,6 +48,38 @@ public class SeedLoader {
 					route.setTextColor(splittedLine[7]);
 				}
 				routeRepository.saveAndFlush(route);
+			});
+		} catch (IOException ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+	}
+
+	public void loadTrips(String source) {
+		InputStream is = SeedLoader.class.getResourceAsStream(source);
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+			br.lines().skip(1).forEach(line -> {
+				Trip trip = new Trip();
+				String[] splittedLine = line.split(",");
+				Integer routeId = Integer.parseInt(splittedLine[0]);
+				Route route = routeRepository.findOne(routeId);
+				trip.setRoute(route);
+				trip.setServiceId(splittedLine[1]);
+				trip.setId(splittedLine[2]);
+				trip.setHeadSign(splittedLine[3]);
+				trip.setDirectionId(splittedLine[4]);
+				if (splittedLine.length > 5) {
+					trip.setShapeId(splittedLine[5]);
+				}
+				if (splittedLine.length > 6) {
+					trip.setWheelchairAccessible(splittedLine[6]);
+				}
+				if (splittedLine.length > 7) {
+					trip.setNoteFr(splittedLine[7]);
+				}
+				if (splittedLine.length > 8) {
+					trip.setNoteEn(splittedLine[8]);
+				}
+				tripRepository.saveAndFlush(trip);
 			});
 		} catch (IOException ex) {
 			logger.error(ex.getMessage(), ex);

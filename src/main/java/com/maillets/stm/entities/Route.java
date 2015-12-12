@@ -1,8 +1,12 @@
 package com.maillets.stm.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +37,9 @@ public class Route {
 
 	@Column(nullable = true)
 	private String textColor;
+
+	@OneToMany(mappedBy = "route")
+	private Set<Trip> trips = new HashSet<>();
 
 	public Integer getId() {
 		return id;
@@ -96,5 +103,13 @@ public class Route {
 
 	public void setTextColor(String textColor) {
 		this.textColor = textColor;
+	}
+
+	public Set<Trip> getTrips() {
+		return trips;
+	}
+
+	public void setTrips(Set<Trip> trips) {
+		this.trips = trips;
 	}
 }

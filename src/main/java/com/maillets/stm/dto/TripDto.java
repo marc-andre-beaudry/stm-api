@@ -19,7 +19,7 @@ public class TripDto {
 	private String shapeId;
 	@JsonProperty("wheelchair_accessible")
 	private String wheelchairAccessible;
-	@JsonProperty("note_fr	")
+	@JsonProperty("note_fr")
 	private String noteFr;
 	@JsonProperty("note_en")
 	private String noteEn;
@@ -27,7 +27,7 @@ public class TripDto {
 	public static TripDto fromTrip(Trip trip) {
 		TripDto dto = new TripDto();
 		dto.setId(trip.getId().toString());
-		dto.setRouteId(trip.getRouteId());
+		dto.setRouteId(trip.getRoute().getId());
 		dto.setServiceId(trip.getServiceId());
 		dto.setHeadSign(trip.getHeadSign());
 		dto.setDirectionId(trip.getDirectionId());
