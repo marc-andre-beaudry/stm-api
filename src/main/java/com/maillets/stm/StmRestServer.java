@@ -18,13 +18,14 @@ public class StmRestServer {
 	private static final Logger logger = LoggerFactory.getLogger(StmRestServer.class);
 
 	@Autowired
-	StopSeedLoader stopSeedLoader;
+	SeedLoader seedLoader;
 
 	@Bean
 	CommandLineRunner init() {
 
 		return arg -> {
-			stopSeedLoader.load("/stops.txt");
+			seedLoader.loadStops("/stops.txt");
+			seedLoader.loadRoutes("/routes.txt");
 			logger.info("Init done!");
 		};
 	}

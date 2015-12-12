@@ -1,39 +1,39 @@
-package com.maillets.stm.entities;
+package com.maillets.stm.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maillets.stm.entities.Route;
 
-@Entity
-@Table(name = "route")
-public class Route {
+public class RouteDto {
 
-	@Id
-	@GeneratedValue
+	@JsonProperty("route_id")
 	private Integer id;
-
-	@Column(nullable = false)
+	@JsonProperty("agency_id")
 	private String agency;
-
-	@Column(nullable = false)
+	@JsonProperty("route_short_name")
 	private String shortName;
-
-	@Column(nullable = false)
+	@JsonProperty("route_long_name")
 	private String longName;
-
-	@Column(nullable = false)
+	@JsonProperty("route_type")
 	private String type;
-
-	@Column(nullable = false)
+	@JsonProperty("route_url")
 	private String url;
-
-	@Column(nullable = true)
+	@JsonProperty("route_color")
 	private String color;
-
-	@Column(nullable = true)
+	@JsonProperty("route_text_color")
 	private String textColor;
+
+	public static RouteDto fromStop(Route route) {
+		RouteDto dto = new RouteDto();
+		dto.setId(route.getId());
+		dto.setAgency(route.getAgency());
+		dto.setShortName(route.getShortName());
+		dto.setLongName(route.getLongName());
+		dto.setType(route.getType());
+		dto.setUrl(route.getUrl());
+		dto.setColor(route.getColor());
+		dto.setTextColor(route.getTextColor());
+		return dto;
+	}
 
 	public Integer getId() {
 		return id;
