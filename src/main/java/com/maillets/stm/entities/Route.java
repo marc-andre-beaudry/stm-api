@@ -2,7 +2,6 @@ package com.maillets.stm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,7 +10,7 @@ import javax.persistence.Table;
 public class Route {
 
 	@Id
-	@GeneratedValue
+	@Column(nullable = false, unique = true)
 	private Integer id;
 
 	@Column(nullable = false)

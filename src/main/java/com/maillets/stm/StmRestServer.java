@@ -26,6 +26,7 @@ public class StmRestServer {
 		return arg -> {
 			seedLoader.loadStops("/stops.txt");
 			seedLoader.loadRoutes("/routes.txt");
+			seedLoader.loadTrips("/trips.txt");
 			logger.info("Init done!");
 		};
 	}
