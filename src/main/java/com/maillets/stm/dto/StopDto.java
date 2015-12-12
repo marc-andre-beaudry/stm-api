@@ -1,35 +1,31 @@
-package com.maillets.stm.entities;
+package com.maillets.stm.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maillets.stm.entities.Stop;
 
-@Entity
-@Table(name = "stop")
-public class Stop {
+public class StopDto {
 
-	@Id
-	@Column(nullable = false, unique = true)
 	private Integer id;
-
-	@Column(nullable = false, unique = true)
 	private Integer code;
-
-	@Column(nullable = false)
 	private String name;
-
-	@Column(nullable = false)
+	@JsonProperty("lat")
 	private String latitude;
-
-	@Column(nullable = false)
+	@JsonProperty("long")
 	private String longitude;
-
-	@Column(nullable = false)
 	private String url;
-
-	@Column(nullable = false)
 	private String wheelchairBoarding;
+
+	public static StopDto fromStop(Stop stop) {
+		StopDto dto = new StopDto();
+		dto.setId(stop.getId());
+		dto.setCode(stop.getCode());
+		dto.setName(stop.getName());
+		dto.setLatitude(stop.getLatitude());
+		dto.setLongitude(stop.getLongitude());
+		dto.setUrl(stop.getUrl());
+		dto.setWheelchairBoarding(stop.getWheelchairBoarding());
+		return dto;
+	}
 
 	public Integer getId() {
 		return id;
