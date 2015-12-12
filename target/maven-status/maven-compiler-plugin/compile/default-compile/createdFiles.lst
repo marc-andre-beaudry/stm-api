@@ -1,9 +1,0 @@
-com/maillets/stm/entities/Stop.class
-com/maillets/stm/controller/exception/EntityNotFoundException.class
-com/maillets/stm/dto/StatusDto$Status.class
-com/maillets/stm/controller/StatusController.class
-com/maillets/stm/entities/Route.class
-com/maillets/stm/controller/exception/BadRequestException.class
-com/maillets/stm/controller/ControllerUtils.class
-com/maillets/stm/dto/StatusDto.class
-com/maillets/stm/StmRestServer.class

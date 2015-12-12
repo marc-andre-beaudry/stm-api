@@ -1,8 +1,0 @@
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/controller/exception/BadRequestException.java
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/controller/StatusController.java
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/entities/Stop.java
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/controller/exception/EntityNotFoundException.java
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/controller/ControllerUtils.java
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/dto/StatusDto.java
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/StmRestServer.java
-/Users/marcandre/Dev/Java/SRC/stm-api/src/main/java/com/maillets/stm/entities/Route.java
