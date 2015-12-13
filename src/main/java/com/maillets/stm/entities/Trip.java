@@ -1,11 +1,15 @@
 package com.maillets.stm.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -40,6 +44,9 @@ public class Trip {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "routeId")
 	private Route route;
+
+	@OneToMany(mappedBy = "trip")
+	private Set<StopTime> stopTimes = new HashSet<>();
 
 	public String getId() {
 		return id;
@@ -111,5 +118,13 @@ public class Trip {
 
 	public void setRoute(Route route) {
 		this.route = route;
+	}
+
+	public Set<StopTime> getStopTimes() {
+		return stopTimes;
+	}
+
+	public void setStopTimes(Set<StopTime> stopTimes) {
+		this.stopTimes = stopTimes;
 	}
 }

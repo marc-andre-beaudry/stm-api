@@ -2,11 +2,13 @@ package com.maillets.stm.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,10 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maillets.stm.dto.RouteDto;
+import com.maillets.stm.dto.StopDto;
 import com.maillets.stm.dto.TripDto;
 import com.maillets.stm.entities.Route;
+import com.maillets.stm.entities.Stop;
+import com.maillets.stm.entities.StopTime;
 import com.maillets.stm.entities.Trip;
 import com.maillets.stm.repository.RouteRepository;
+
+import rx.Observable;
 
 @RestController
 @RequestMapping("/api/routes")
@@ -29,15 +36,16 @@ public class RouteController {
 	RouteRepository routeRepository;
 
 	@RequestMapping(value = "", method = { RequestMethod.GET })
-	public List<RouteDto> getRoutes(@RequestParam(value = "limit", required = false) Long limit) {
+	public List<RouteDto> getRoutes(@RequestParam(value = "limit", required = false) Integer limit) {
 		logger.debug("GET /");
 
 		if (limit == null) {
-			limit = Long.MAX_VALUE;
+			limit = Integer.MAX_VALUE;
 		}
 
 		List<RouteDto> dtos = new ArrayList<>();
-		for (Route route : routeRepository.findAll().stream().limit(limit).collect(Collectors.toList())) {
+		Pageable pageable = new PageRequest(0, limit, Direction.ASC, "id");
+		for (Route route : routeRepository.findAll(pageable)) {
 			dtos.add(RouteDto.fromStop(route));
 		}
 
@@ -61,6 +69,24 @@ public class RouteController {
 		for (Trip trip : route.getTrips()) {
 			dtos.add(TripDto.fromTrip(trip));
 		}
+		return dtos;
+	}
+
+	@RequestMapping(value = "/{id}/stops", method = { RequestMethod.GET })
+	public List<StopDto> getStopsForRoute(@PathVariable(value = "id") Integer id) {
+		logger.debug("GET /{id}/stops");
+
+		Route route = routeRepository.findOne(id);
+		List<StopDto> dtos = new ArrayList<>();
+		List<Stop> stops = new ArrayList<>();
+		for (Trip trip : route.getTrips()) {
+			for (StopTime stopTime : trip.getStopTimes()) {
+				stops.add(stopTime.getStop());
+			}
+		}
+		Observable.from(stops).distinct(Stop::getId).forEach(stop -> {
+			dtos.add(StopDto.fromStop(stop));
+		});
 		return dtos;
 	}
 }

@@ -10,25 +10,45 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.maillets.stm.repository.RouteRepository;
+import com.maillets.stm.repository.StopRepository;
+import com.maillets.stm.repository.StopTimeRepository;
+import com.maillets.stm.repository.TripRepository;
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-public class StmRestServer {
+public class ClearTable {
 
 	private static final Logger logger = LoggerFactory.getLogger(StmRestServer.class);
 
 	@Autowired
-	SeedLoader seedLoader;
+	TripRepository tripRepository;
+
+	@Autowired
+	StopRepository stopRepository;
+
+	@Autowired
+	StopTimeRepository stopTimeRepository;
+
+	@Autowired
+	RouteRepository routeRepository;
 
 	@Bean
 	CommandLineRunner init() {
 
 		return arg -> {
-			logger.info("Init done!");
+			stopTimeRepository.deleteAllInBatch();
+			stopRepository.deleteAllInBatch();
+			tripRepository.deleteAllInBatch();
+			routeRepository.deleteAllInBatch();
+			logger.info("Clear Done done!");
+			System.exit(0);
 		};
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(StmRestServer.class, args);
+		SpringApplication.run(ClearTable.class, args);
 	}
+
 }

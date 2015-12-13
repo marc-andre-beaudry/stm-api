@@ -2,11 +2,13 @@ package com.maillets.stm.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,15 +29,16 @@ public class StopController {
 	StopRepository stopRepository;
 
 	@RequestMapping(value = "", method = { RequestMethod.GET })
-	public List<StopDto> getStops(@RequestParam(value = "limit", required = false) Long limit) {
+	public List<StopDto> getStops(@RequestParam(value = "limit", required = false) Integer limit) {
 		logger.debug("GET /");
 
 		if (limit == null) {
-			limit = Long.MAX_VALUE;
+			limit = Integer.MAX_VALUE;
 		}
 
 		List<StopDto> dtos = new ArrayList<>();
-		for (Stop stop : stopRepository.findAll().stream().limit(limit).collect(Collectors.toList())) {
+		Pageable pageable = new PageRequest(0, limit, Direction.ASC, "id");
+		for (Stop stop : stopRepository.findAll(pageable)) {
 			dtos.add(StopDto.fromStop(stop));
 		}
 

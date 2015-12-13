@@ -1,8 +1,12 @@
 package com.maillets.stm.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +34,9 @@ public class Stop {
 
 	@Column(nullable = false)
 	private String wheelchairBoarding;
+
+	@OneToMany(mappedBy = "stop")
+	private Set<StopTime> stopTimes = new HashSet<>();
 
 	public Integer getId() {
 		return id;
@@ -85,5 +92,13 @@ public class Stop {
 
 	public void setWheelchairBoarding(String wheelchairBoarding) {
 		this.wheelchairBoarding = wheelchairBoarding;
+	}
+
+	public Set<StopTime> getStopTimes() {
+		return stopTimes;
+	}
+
+	public void setStopTimes(Set<StopTime> stopTimes) {
+		this.stopTimes = stopTimes;
 	}
 }
